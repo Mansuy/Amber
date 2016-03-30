@@ -1,40 +1,70 @@
 Smalltalk createPackage: 'First'!
 (Smalltalk packageAt: 'First') imports: {'amber/jquery/Wrappers-JQuery'. 'amber/web/Web'. 'silk/Silk'}!
-Object subclass: #First
-	instanceVariableNames: ''
+Widget subclass: #Main
+	instanceVariableNames: 'task header'
 	package: 'First'!
 
-!First methodsFor: 'action'!
+!Main methodsFor: 'not yet classified'!
 
-doJQueryFirst
-	'#output-list' asJQuery append: '<li>Задача.</li>'
+initialize
+	super initialize.
+	task := NewTask new
 !
 
-doJQuerySecond
-	'#output-list' asJQuery append: '<button>Hi</button>'
+renderOn: html
+	header := html div
+		with: '',task id,') ', task name;
+		yourself.
+	html button
+		with: 'Завершить задачу';
+		onClick: [  ].
+! !
+
+!Main class methodsFor: 'not yet classified'!
+
+tryExample
+	self new appendToJQuery: '#tasks' asJQuery
+! !
+
+Object subclass: #NewTask
+	instanceVariableNames: 'name count id'
+	package: 'First'!
+
+!NewTask methodsFor: 'not yet classified'!
+
+id
+	^id
 !
 
-doJQuerySecond: html
-	html form with: [
-    html table with: [
-        html tr with: [
-            html td with: 'Username'.
-            html td with: [html input]].
-        html tr with: [
-            html td with: 'Password'.
-            html td with: [html input type: 'password']]]]
+initialize
+	super initialize.
+	id := self class nextId.
+    name := '#input' asJQuery val
+!
+
+name
+	^name
+!
+
+nameClose
+	name := '',id,') ',name,' ','close'.
+	^name
 ! !
 
-!First methodsFor: 'starting'!
+NewTask class instanceVariableNames: 'lastId'!
 
-augmentPage
-	'#jquery-first' asJQuery click: [ self doJQueryFirst ].
-	'#jquery-second' asJQuery click: [ self doJQuerySecond ]
-! !
+!NewTask class methodsFor: 'not yet classified'!
 
-!First class methodsFor: 'starting'!
+initialize
+	super initialize.
+	self resetId
+!
 
-start
-	self new augmentPage
+nextId
+	^lastId := lastId +1.
+!
+
+resetId
+	lastId := 0
 ! !
 
