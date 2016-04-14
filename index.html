@@ -26,6 +26,7 @@
             'transport.defaultAmdNamespace': "amber-first"
           }).then(function () {
               require(["amber-ide-starter-dialog"], function (dlg) { dlg.start(); });
+              amber.globals.WebHNI._startConnection();
           });
       });
   </script>
@@ -45,16 +46,22 @@
     </td>
   </tr>
  </table>
+ </div>
 
 
 
  <input id="input"></input>
  <button onclick="require(['app'], function (amber) {
-  						amber.globals.Main._tryExample();})">Добавить задачу.</button>
+  						amber.globals.Main._tryExample();})">Добавить задачу.</button>  
 
 
+ <button onclick="require(['app'], function (amber) {
+              amber.globals.AmberRemoteConnector._tryToConnect();})">Connect.</button>  
 
-</div>
+  <button onclick="require(['app'], function (amber) {
+              amber.globals.AmberRemoteConnector._sendMessage();})">Send.</button>                               
+
+<ol id="output-list"></ol>
   </body>
 
 </html>
