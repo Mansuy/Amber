@@ -13,272 +13,6 @@ $core.packages["First"].innerEval = function (expr) { return eval(expr); };
 $core.packages["First"].imports = ["amber/jquery/Wrappers-JQuery", "amber/web/Web", "silk/Silk"];
 $core.packages["First"].transport = {"type":"amd","amdNamespace":"amber-first"};
 
-$core.addClass('AddTask', $globals.Object, ['name', 'count', 'id'], 'First');
-$core.addMethod(
-$core.method({
-selector: "id",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-return self["@id"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "id\x0a\x09^id",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.AddTask);
-
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2;
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.AddTask.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-$1=self._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=1;
-//>>excludeEnd("ctx");
-$recv($1)._addToCollection();
-$2=self._class();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["class"]=2;
-//>>excludeEnd("ctx");
-self["@id"]=$recv($2)._takeId();
-self["@name"]=$recv(self._class())._takeName();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.AddTask)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09self class addToCollection.\x0a\x09id := self class takeId.\x0a    name := self class takeName",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["initialize", "addToCollection", "class", "takeId", "takeName"]
-}),
-$globals.AddTask);
-
-$core.addMethod(
-$core.method({
-selector: "name",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-return self["@name"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "name\x0a\x09^name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.AddTask);
-
-$core.addMethod(
-$core.method({
-selector: "nameClose",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $3,$2,$1;
-$3=$recv("".__comma(self["@id"])).__comma(") ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=4;
-//>>excludeEnd("ctx");
-$2=$recv($3).__comma(self["@name"]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=3;
-//>>excludeEnd("ctx");
-$1=$recv($2).__comma(" ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-self["@name"]=$recv($1).__comma("close");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-return self["@name"];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nameClose",{},$globals.AddTask)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nameClose\x0a\x09name := '',id,') ',name,' ','close'.\x0a\x09^name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: [","]
-}),
-$globals.AddTask);
-
-
-$globals.AddTask.klass.iVarNames = ['lastId','taskCollection','idTest','nameTest'];
-$core.addMethod(
-$core.method({
-selector: "addToCollection",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(self["@taskCollection"])._at_put_(self._nextId(),$recv("#input"._asJQuery())._val());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addToCollection",{},$globals.AddTask.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "addToCollection\x0a\x09taskCollection at: self nextId put:  '#input' asJQuery val\x0a\x09",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["at:put:", "nextId", "val", "asJQuery"]
-}),
-$globals.AddTask.klass);
-
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($globals.AddTask.klass.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = false;
-//>>excludeEnd("ctx");;
-self["@taskCollection"]=$recv($globals.Dictionary)._new();
-self._resetId();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.AddTask.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09taskCollection := Dictionary new.\x0a\x09self resetId",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-messageSends: ["initialize", "new", "resetId"]
-}),
-$globals.AddTask.klass);
-
-$core.addMethod(
-$core.method({
-selector: "nextId",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-self["@lastId"]=$recv(self["@lastId"]).__plus((1));
-$1=self["@lastId"];
-return $1;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"nextId",{},$globals.AddTask.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "nextId\x0a\x09^lastId := lastId +1.",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["+"]
-}),
-$globals.AddTask.klass);
-
-$core.addMethod(
-$core.method({
-selector: "resetId",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-self["@lastId"]=(0);
-return self;
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "resetId\x0a\x09lastId := 0",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.AddTask.klass);
-
-$core.addMethod(
-$core.method({
-selector: "takeId",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-return self["@lastId"];
-
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "takeId\x0a\x09^lastId",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: []
-}),
-$globals.AddTask.klass);
-
-$core.addMethod(
-$core.method({
-selector: "takeName",
-protocol: 'not yet classified',
-fn: function (){
-var self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv(self["@taskCollection"])._at_(self["@lastId"]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"takeName",{},$globals.AddTask.klass)});
-//>>excludeEnd("ctx");
-},
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "takeName\x0a\x09^taskCollection at: lastId",
-referencedClasses: [],
-//>>excludeEnd("ide");
-messageSends: ["at:"]
-}),
-$globals.AddTask.klass);
-
-
 $core.addClass('AmberRemoteConnector', $globals.Object, ['socket'], 'First');
 
 $globals.AmberRemoteConnector.klass.iVarNames = ['socket'];
@@ -401,7 +135,7 @@ messageSends: ["createSocket"]
 $globals.AmberRemoteConnector.klass);
 
 
-$core.addClass('Main', $globals.Widget, ['task', 'header'], 'First');
+$core.addClass('Main', $globals.Widget, ['task'], 'First');
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -419,7 +153,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
-self["@task"]=$recv($globals.AddTask)._new();
+self["@task"]=$recv($globals.NewTask)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Main)});
@@ -427,8 +161,8 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09task := AddTask new",
-referencedClasses: ["AddTask"],
+source: "initialize\x0a\x09super initialize.\x0a\x09task := NewTask new",
+referencedClasses: ["NewTask"],
 //>>excludeEnd("ide");
 messageSends: ["initialize", "new"]
 }),
@@ -443,26 +177,71 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$2,$4;
-$1=$recv(html)._div();
-$3=$recv("".__comma($recv(self["@task"])._id())).__comma(") ");
+var $1,$3,$7,$6,$5,$4,$8,$9,$2;
+$1=$recv(html)._table();
+$recv($1)._width_("100%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=2;
+$ctx1.sendIdx["width:"]=1;
 //>>excludeEnd("ctx");
-$2=$recv($3).__comma($recv(self["@task"])._name());
+$2=$recv($1)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx[","]=1;
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv($1)._with_($2);
+$3=$recv(html)._td();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["td"]=1;
+//>>excludeEnd("ctx");
+$recv($3)._width_("90%");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["width:"]=2;
+//>>excludeEnd("ctx");
+$7=$recv(self["@task"])._id();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["id"]=1;
+//>>excludeEnd("ctx");
+$6="".__comma($7);
+$5=$recv($6).__comma(") ");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=2;
+//>>excludeEnd("ctx");
+$4=$recv($5).__comma($recv(self["@task"])._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($3)._with_($4);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["with:"]=2;
+//>>excludeEnd("ctx");
+$recv($3)._yourself();
+$8=$recv(html)._td();
+$recv($8)._width_("10%");
+return $recv($8)._with_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$9=$recv(html)._input();
+$recv($9)._type_("checkbox");
+$recv($9)._onClick_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(self["@task"])._changeStatus();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+return $recv($9)._value_($recv(self["@task"])._id());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["with:"]=1;
 //>>excludeEnd("ctx");
-self["@header"]=$recv($1)._yourself();
-$4=$recv(html)._button();
-$recv($4)._with_("Завершить задачу");
-$recv($4)._onClick_((function(){
-
-}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},$globals.Main)});
@@ -470,10 +249,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["html"],
-source: "renderOn: html\x0a\x09header := html div\x0a\x09\x09with: '',task id,') ', task name;\x0a\x09\x09yourself.\x0a\x09html button\x0a\x09\x09with: 'Завершить задачу';\x0a\x09\x09onClick: [  ].",
+source: "renderOn: html\x0a    html table \x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '90%'; \x0a\x09            \x09\x09with: '',task id,') ', task name;\x0a\x09\x09\x09\x09\x09\x09yourself.\x0a\x09            html td width: '10%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09            type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus];\x0a\x09\x09\x09\x09\x09\x09\x09\x09value: task id.]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["with:", "div", ",", "id", "name", "yourself", "button", "onClick:"]
+messageSends: ["width:", "table", "with:", "td", ",", "id", "name", "yourself", "type:", "input", "onClick:", "changeStatus", "value:"]
 }),
 $globals.Main);
 
@@ -502,5 +281,301 @@ referencedClasses: [],
 messageSends: ["appendToJQuery:", "new", "asJQuery"]
 }),
 $globals.Main.klass);
+
+
+$core.addClass('NewTask', $globals.Object, ['name', 'count', 'id', 'check'], 'First');
+$core.addMethod(
+$core.method({
+selector: "changeStatus",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv(self["@check"]).__eq(false);
+if($core.assert($1)){
+self["@check"]=true;
+self["@check"];
+};
+if(!$core.assert($1)){
+self["@check"]=false;
+self["@check"];
+};
+return self["@check"];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"changeStatus",{},$globals.NewTask)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "changeStatus\x0a\x09check = false\x0a\x09\x09ifTrue: [check := true];\x0a\x09\x09ifFalse: [check := false].\x0a  ^check",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["ifTrue:", "=", "ifFalse:"]
+}),
+$globals.NewTask);
+
+$core.addMethod(
+$core.method({
+selector: "check",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+return self["@check"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "check\x0a\x09^check",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NewTask);
+
+$core.addMethod(
+$core.method({
+selector: "id",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+return self["@id"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "id\x0a\x09^id",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NewTask);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $3,$2,$1,$4,$5;
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.NewTask.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+$3="#input"._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=1;
+//>>excludeEnd("ctx");
+$2=$recv($3)._val();
+$1=$recv($2).__eq("");
+if($core.assert($1)){
+$recv("#input"._asJQuery())._val_("Error");
+};
+$4=self._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=1;
+//>>excludeEnd("ctx");
+$recv($4)._addToCollection();
+$5=self._class();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["class"]=2;
+//>>excludeEnd("ctx");
+self["@id"]=$recv($5)._takeId();
+self["@name"]=$recv(self._class())._takeName();
+self["@check"]=false;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NewTask)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09 '#input' asJQuery val = ''\x0a\x09\x09ifTrue: [ '#input' asJQuery val: 'Error'].\x0a\x09self class addToCollection.\x0a\x09id := self class takeId.\x0a    name := self class takeName.\x0a\x09check := false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "ifTrue:", "=", "val", "asJQuery", "val:", "addToCollection", "class", "takeId", "takeName"]
+}),
+$globals.NewTask);
+
+$core.addMethod(
+$core.method({
+selector: "name",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+return self["@name"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "name\x0a\x09^name",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NewTask);
+
+
+$globals.NewTask.klass.iVarNames = ['lastId','taskCollection','idTest','nameTest'];
+$core.addMethod(
+$core.method({
+selector: "addToCollection",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2,$4,$3;
+$1=self["@taskCollection"];
+$2=self._nextId();
+$4="#input"._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=1;
+//>>excludeEnd("ctx");
+$3=$recv($4)._val();
+$recv($1)._at_put_($2,$3);
+$recv("#input"._asJQuery())._val_("");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addToCollection",{},$globals.NewTask.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "addToCollection\x0a\x09taskCollection at: self nextId put:  '#input' asJQuery val.\x0a\x09'#input' asJQuery val: ''\x0a\x0a\x09",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:put:", "nextId", "val", "asJQuery", "val:"]
+}),
+$globals.NewTask.klass);
+
+$core.addMethod(
+$core.method({
+selector: "initialize",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($globals.NewTask.klass.superclass||$boot.dnu).fn.prototype._initialize.apply($recv(self), []));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = false;
+//>>excludeEnd("ctx");;
+self["@taskCollection"]=$recv($globals.Dictionary)._new();
+self._resetId();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.NewTask.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09super initialize.\x0a\x09taskCollection := Dictionary new.\x0a\x09self resetId",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+messageSends: ["initialize", "new", "resetId"]
+}),
+$globals.NewTask.klass);
+
+$core.addMethod(
+$core.method({
+selector: "nextId",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+self["@lastId"]=$recv(self["@lastId"]).__plus((1));
+$1=self["@lastId"];
+return $1;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"nextId",{},$globals.NewTask.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "nextId\x0a\x09^lastId := lastId +1.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["+"]
+}),
+$globals.NewTask.klass);
+
+$core.addMethod(
+$core.method({
+selector: "resetId",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+self["@lastId"]=(0);
+return self;
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "resetId\x0a\x09lastId := 0",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NewTask.klass);
+
+$core.addMethod(
+$core.method({
+selector: "takeId",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+return self["@lastId"];
+
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "takeId\x0a\x09^lastId",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: []
+}),
+$globals.NewTask.klass);
+
+$core.addMethod(
+$core.method({
+selector: "takeName",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(self["@taskCollection"])._at_(self["@lastId"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"takeName",{},$globals.NewTask.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "takeName\x0a\x09^taskCollection at: lastId",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["at:"]
+}),
+$globals.NewTask.klass);
 
 });

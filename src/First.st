@@ -1,61 +1,5 @@
 Smalltalk createPackage: 'First'!
 (Smalltalk packageAt: 'First') imports: {'amber/jquery/Wrappers-JQuery'. 'amber/web/Web'. 'silk/Silk'}!
-Object subclass: #AddTask
-	instanceVariableNames: 'name count id'
-	package: 'First'!
-
-!AddTask methodsFor: 'not yet classified'!
-
-id
-	^id
-!
-
-initialize
-	super initialize.
-	self class addToCollection.
-	id := self class takeId.
-    name := self class takeName
-!
-
-name
-	^name
-!
-
-nameClose
-	name := '',id,') ',name,' ','close'.
-	^name
-! !
-
-AddTask class instanceVariableNames: 'lastId taskCollection idTest nameTest'!
-
-!AddTask class methodsFor: 'not yet classified'!
-
-addToCollection
-	taskCollection at: self nextId put:  '#input' asJQuery val
-!
-
-initialize
-	super initialize.
-	taskCollection := Dictionary new.
-	self resetId
-!
-
-nextId
-	^lastId := lastId +1.
-!
-
-resetId
-	lastId := 0
-!
-
-takeId
-	^lastId
-!
-
-takeName
-	^taskCollection at: lastId
-! !
-
 Object subclass: #AmberRemoteConnector
 	instanceVariableNames: 'socket'
 	package: 'First'!
@@ -80,23 +24,28 @@ tryToConnect
 ! !
 
 Widget subclass: #Main
-	instanceVariableNames: 'task header'
+	instanceVariableNames: 'task'
 	package: 'First'!
 
 !Main methodsFor: 'not yet classified'!
 
 initialize
 	super initialize.
-	task := AddTask new
+	task := NewTask new
 !
 
 renderOn: html
-	header := html div
-		with: '',task id,') ', task name;
-		yourself.
-	html button
-		with: 'Завершить задачу';
-		onClick: [  ].
+    html table 
+    		width: '100%';
+    		with: [
+	            html td width: '90%'; 
+	            		with: '',task id,') ', task name;
+						yourself.
+	            html td width: '10%'; 
+	            		with: [html input
+					            type: 'checkbox';
+								onClick: [task changeStatus];
+								value: task id.]]
 ! !
 
 Main class instanceVariableNames: 'taskCollections'!
@@ -105,5 +54,71 @@ Main class instanceVariableNames: 'taskCollections'!
 
 tryExample
 	self new appendToJQuery: '#tasks' asJQuery
+! !
+
+Object subclass: #NewTask
+	instanceVariableNames: 'name count id check'
+	package: 'First'!
+
+!NewTask methodsFor: 'not yet classified'!
+
+changeStatus
+	check = false
+		ifTrue: [check := true];
+		ifFalse: [check := false].
+  ^check
+!
+
+check
+	^check
+!
+
+id
+	^id
+!
+
+initialize
+	super initialize.
+	 '#input' asJQuery val = ''
+		ifTrue: [ '#input' asJQuery val: 'Error'].
+	self class addToCollection.
+	id := self class takeId.
+    name := self class takeName.
+	check := false
+!
+
+name
+	^name
+! !
+
+NewTask class instanceVariableNames: 'lastId taskCollection idTest nameTest'!
+
+!NewTask class methodsFor: 'not yet classified'!
+
+addToCollection
+	taskCollection at: self nextId put:  '#input' asJQuery val.
+	'#input' asJQuery val: ''
+!
+
+initialize
+	super initialize.
+	taskCollection := Dictionary new.
+	self resetId
+!
+
+nextId
+	^lastId := lastId +1.
+!
+
+resetId
+	lastId := 0
+!
+
+takeId
+	^lastId
+!
+
+takeName
+	^taskCollection at: lastId
 ! !
 

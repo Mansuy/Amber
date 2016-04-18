@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 
   <head>
@@ -11,14 +11,46 @@
     </script>
 
     <style>
-       td {
-        vertical-align: top; /* Выравнивание по верхнему краю ячеек */
-       }
+       .block1 { 
+        border:1px solid #9E9E9E;
+        width: 400px; 
+        height: 200px;
+        background: #D3D3D3;
+        overflow-y : auto;
+        }
+       .button {
+        text-align:center; 
+        padding:12px 44px; 
+        -webkit-border-radius:14px;
+        -moz-border-radius:14px; 
+        border-radius: 14px; 
+        font:12px Arial, Helvetica, sans-serif; 
+        font-weight:bold; 
+        color:black; 
+        background-color:#C0C0C0; 
+        }
+        .input {
+        border:1px solid #9E9E9E;
+        padding: 3px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background: #C0C0C0;
+        font:12px Arial, Helvetica, sans-serif; 
+        font-weight:bold; 
+        color:black;
+        width: 200px;
+        }
+        .title {
+        font:20px Arial, Helvetica, sans-serif; 
+        font-weight:bold; 
+        color:black;
+        }
+
 
     </style>
   </head>
 
-  <body>
+  <body bgcolor="DCDCDC">
   <script type='text/javascript'>
       require(['app'], function (amber) {
           amber.initialize({
@@ -26,10 +58,10 @@
             'transport.defaultAmdNamespace': "amber-first"
           }).then(function () {
               require(["amber-ide-starter-dialog"], function (dlg) { dlg.start(); });
-              amber.globals.WebHNI._startConnection();
+              amber.globals.AmberRemoteConnector._tryToConnect();
           });
       });
-  </script>
+  </script> 
 
   			
  <!-- <button id="jquery-first">First</button>
@@ -38,30 +70,45 @@
 <!--  <button onclick="window.open('test.html','newwin','top=15, left=20, menubar=0, toolbar=0, location=0, directories=0, status=0, scrollbars=0, resizable=0, width=400, height=100');">Button</button> -->
  <!-- <div id="client-main"> -->
 
- <table border="1" width="400" height="400">
- <caption>Список задач:</caption>
-  <tr>
-    <td>
-     <div id="tasks">
-    </td>
-  </tr>
+ <table width="100%">
+
+   <td width="30%"></td>
+   <td align="center" width="40%">
+     <table>
+     <caption><h3 class="title">Список задач</h3></caption>
+     <td>
+       <div class="block1"> 
+       <div id="tasks"></div>
+       </div>
+       <input class="input" id="input"/>
+       <button class="button" onclick="require(['app'], function (amber) {
+                amber.globals.Main._tryExample();})">Добавить задачу.</button>  
+       <ol id="output-list"></ol>
+     </td>
+     </table>
+   </td>
+   <td width="30%"></td>
+  <!-- <td valign="top">
+     <button onclick="require(['app'], function (amber) {
+              amber.globals.AmberRemoteConnector._tryToConnect();})">Connect.</button>  
+     <button onclick="require(['app'], function (amber) {
+              amber.globals.AmberRemoteConnector._sendMessage();})">Send.</button>    
+     <ol id="output-list"></ol>  
+   </td>-->
+
  </table>
- </div>
 
 
-
- <input id="input"></input>
- <button onclick="require(['app'], function (amber) {
-  						amber.globals.Main._tryExample();})">Добавить задачу.</button>  
+ 
 
 
- <button onclick="require(['app'], function (amber) {
+ <!--<button onclick="require(['app'], function (amber) {
               amber.globals.AmberRemoteConnector._tryToConnect();})">Connect.</button>  
 
   <button onclick="require(['app'], function (amber) {
               amber.globals.AmberRemoteConnector._sendMessage();})">Send.</button>                               
 
-<ol id="output-list"></ol>
+<ol id="output-list"></ol>-->
   </body>
 
 </html>
