@@ -9,43 +9,93 @@ AmberRemoteConnector class instanceVariableNames: 'socket'!
 !AmberRemoteConnector class methodsFor: 'not yet classified'!
 
 createSocket
-		socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org/'.
-		socket onopen: [ '#output-list' asJQuery append: '<li>Connected</li>'].
-		socket onmessage: [:evt | '#output-list' asJQuery append: '<li>',evt data,'</li>'].
-		socket onclose: [  '#output-list' asJQuery append: '<li>Connection lost</li>' ].
+		socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org'.
+		socket onmessage: [:evt | self receiveMessage: evt].
+		socket onclose: [  '#output-list' asJQuery append: '<li>Connection lost</li>'. self tryToReconnect].
+		socket onopen: [self loadData]
 !
 
-sendMessage
-	socket send: 'hi'
+loadData
+	|call|
+	 '#output-list' asJQuery append: '<li>Connected</li>'. 
+	call := HashedCollection new.
+	call at: 'Operation' put: 'AmberRemoteConnector testM2'.
+	
+	socket send: call asJSONString
+!
+
+receiveMessage: aBlock
+	|dict d1 result|
+	dict := Dictionary new. 
+	dict := (SmalltalkImage current readJSObject: (JSON parse: aBlock data)) copy.
+	d1 := dict at: 'Operation'.
+	(Compiler new evaluateExpression: (d1))
+!
+
+sendMessage: taskId type: oType name: taskName
+	|call|
+	call := HashedCollection new.
+	call at: 'Task id' put: taskId.
+	call at: 'Operation' put: oType.
+	taskName == 'null' 
+		ifFalse: [call at: 'Task name' put: taskName.].
+	
+	socket send: call asJSONString
+!
+
+testM1
+	 '#output-list' asJQuery append: '<li>','Yeah!!','</li>'
+!
+
+testM2
+	 '#output-list' asJQuery append: '<li>','Yeah!! Good!!','</li>'
 !
 
 tryToConnect
 	self createSocket
+!
+
+tryToReconnect
+		socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org'.
+		socket onopen: [ '#output-list' asJQuery append: '<li>Connection is restored.</li>'].
+		socket onmessage: [:evt | self receiveMessage: evt].
+		socket onclose: ['#output-list' asJQuery append: '<li>Unsuccessful attempt to reconnect.</li>'. 
+									self tryToReconnect]
 ! !
 
 Widget subclass: #Main
-	instanceVariableNames: 'task'
+	instanceVariableNames: 'task header'
 	package: 'First'!
 
 !Main methodsFor: 'not yet classified'!
 
+deleteTask
+	header asJQuery remove.
+	AmberRemoteConnector sendMessage: '',task id type: 'Delete' name: 'null'
+!
+
 initialize
 	super initialize.
-	task := NewTask new
+	task := NewTask new.
+	AmberRemoteConnector sendMessage: '',task id type: 'AmberRemoteConnector testM1' name: task name
 !
 
 renderOn: html
-    html table 
+    header := html table
     		width: '100%';
     		with: [
-	            html td width: '90%'; 
-	            		with: '',task id,') ', task name;
-						yourself.
-	            html td width: '10%'; 
+	            html td width: '85%';
+						with: [html p
+									with: '',task name;
+									yourself.].
+	            html td width: '15%'; 
 	            		with: [html input
-					            type: 'checkbox';
-								onClick: [task changeStatus];
-								value: task id.]]
+									type: 'checkbox';
+									onClick: [task changeStatus];
+									id: task id.
+								 html button
+									with:'D';
+									onClick: [self deleteTask].]]
 ! !
 
 Main class instanceVariableNames: 'taskCollections'!
@@ -64,9 +114,10 @@ Object subclass: #NewTask
 
 changeStatus
 	check = false
-		ifTrue: [check := true];
-		ifFalse: [check := false].
-  ^check
+		ifTrue: [check := true.
+					AmberRemoteConnector sendMessage: '',id type: 'SetCheck' name: 'null'];
+		ifFalse: [check := false.
+					AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].
 !
 
 check
@@ -91,7 +142,7 @@ name
 	^name
 ! !
 
-NewTask class instanceVariableNames: 'lastId taskCollection idTest nameTest'!
+NewTask class instanceVariableNames: 'lastId taskCollection'!
 
 !NewTask class methodsFor: 'not yet classified'!
 

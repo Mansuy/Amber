@@ -25,49 +25,31 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
-self["@socket"]=$recv($globals.NativeFunction)._constructor_value_("WebSocket","ws://echo.websocket.org/");
-$recv(self["@socket"])._onopen_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1="#output-list"._asJQuery();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asJQuery"]=1;
-//>>excludeEnd("ctx");
-return $recv($1)._append_("<li>Connected</li>");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["append:"]=1;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+self["@socket"]=$recv($globals.NativeFunction)._constructor_value_("WebSocket","ws://echo.websocket.org");
 $recv(self["@socket"])._onmessage_((function(evt){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2="#output-list"._asJQuery();
+return self._receiveMessage_(evt);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asJQuery"]=2;
-//>>excludeEnd("ctx");
-$3=$recv("<li>".__comma($recv(evt)._data())).__comma("</li>");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-return $recv($2)._append_($3);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["append:"]=2;
-//>>excludeEnd("ctx");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
 $recv(self["@socket"])._onclose_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv("#output-list"._asJQuery())._append_("<li>Connection lost</li>");
+$recv("#output-list"._asJQuery())._append_("<li>Connection lost</li>");
+return self._tryToReconnect();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+$recv(self["@socket"])._onopen_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._loadData();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
@@ -79,34 +61,168 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "createSocket\x0a\x09\x09socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org/'.\x0a\x09\x09socket onopen: [ '#output-list' asJQuery append: '<li>Connected</li>'].\x0a\x09\x09socket onmessage: [:evt | '#output-list' asJQuery append: '<li>',evt data,'</li>'].\x0a\x09\x09socket onclose: [  '#output-list' asJQuery append: '<li>Connection lost</li>' ].",
+source: "createSocket\x0a\x09\x09socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org'.\x0a\x09\x09socket onmessage: [:evt | self receiveMessage: evt].\x0a\x09\x09socket onclose: [  '#output-list' asJQuery append: '<li>Connection lost</li>'. self tryToReconnect].\x0a\x09\x09socket onopen: [self loadData]",
 referencedClasses: ["NativeFunction"],
 //>>excludeEnd("ide");
-messageSends: ["constructor:value:", "onopen:", "append:", "asJQuery", "onmessage:", ",", "data", "onclose:"]
+messageSends: ["constructor:value:", "onmessage:", "receiveMessage:", "onclose:", "append:", "asJQuery", "tryToReconnect", "onopen:", "loadData"]
 }),
 $globals.AmberRemoteConnector.klass);
 
 $core.addMethod(
 $core.method({
-selector: "sendMessage",
+selector: "loadData",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+var call;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv("#output-list"._asJQuery())._append_("<li>Connected</li>");
+call=$recv($globals.HashedCollection)._new();
+$recv(call)._at_put_("Operation","AmberRemoteConnector testM2");
+$recv(self["@socket"])._send_($recv(call)._asJSONString());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"loadData",{call:call},$globals.AmberRemoteConnector.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "loadData\x0a\x09|call|\x0a\x09 '#output-list' asJQuery append: '<li>Connected</li>'. \x0a\x09call := HashedCollection new.\x0a\x09call at: 'Operation' put: 'AmberRemoteConnector testM2'.\x0a\x09\x0a\x09socket send: call asJSONString",
+referencedClasses: ["HashedCollection"],
+//>>excludeEnd("ide");
+messageSends: ["append:", "asJQuery", "new", "at:put:", "send:", "asJSONString"]
+}),
+$globals.AmberRemoteConnector.klass);
+
+$core.addMethod(
+$core.method({
+selector: "receiveMessage:",
+protocol: 'not yet classified',
+fn: function (aBlock){
+var self=this;
+var dict,d1,result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+dict=$recv($globals.Dictionary)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["new"]=1;
+//>>excludeEnd("ctx");
+dict=$recv($recv($recv($globals.SmalltalkImage)._current())._readJSObject_($recv($globals.JSON)._parse_($recv(aBlock)._data())))._copy();
+d1=$recv(dict)._at_("Operation");
+$recv($recv($globals.Compiler)._new())._evaluateExpression_(d1);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"receiveMessage:",{aBlock:aBlock,dict:dict,d1:d1,result:result},$globals.AmberRemoteConnector.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "receiveMessage: aBlock\x0a\x09|dict d1 result|\x0a\x09dict := Dictionary new. \x0a\x09dict := (SmalltalkImage current readJSObject: (JSON parse: aBlock data)) copy.\x0a\x09d1 := dict at: 'Operation'.\x0a\x09(Compiler new evaluateExpression: (d1))",
+referencedClasses: ["Dictionary", "SmalltalkImage", "JSON", "Compiler"],
+//>>excludeEnd("ide");
+messageSends: ["new", "copy", "readJSObject:", "current", "parse:", "data", "at:", "evaluateExpression:"]
+}),
+$globals.AmberRemoteConnector.klass);
+
+$core.addMethod(
+$core.method({
+selector: "sendMessage:type:name:",
+protocol: 'not yet classified',
+fn: function (taskId,oType,taskName){
+var self=this;
+var call;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+call=$recv($globals.HashedCollection)._new();
+$recv(call)._at_put_("Task id",taskId);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=1;
+//>>excludeEnd("ctx");
+$recv(call)._at_put_("Operation",oType);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["at:put:"]=2;
+//>>excludeEnd("ctx");
+$1=$recv(taskName).__eq_eq("null");
+if(!$core.assert($1)){
+$recv(call)._at_put_("Task name",taskName);
+};
+$recv(self["@socket"])._send_($recv(call)._asJSONString());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sendMessage:type:name:",{taskId:taskId,oType:oType,taskName:taskName,call:call},$globals.AmberRemoteConnector.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["taskId", "oType", "taskName"],
+source: "sendMessage: taskId type: oType name: taskName\x0a\x09|call|\x0a\x09call := HashedCollection new.\x0a\x09call at: 'Task id' put: taskId.\x0a\x09call at: 'Operation' put: oType.\x0a\x09taskName == 'null' \x0a\x09\x09ifFalse: [call at: 'Task name' put: taskName.].\x0a\x09\x0a\x09socket send: call asJSONString",
+referencedClasses: ["HashedCollection"],
+//>>excludeEnd("ide");
+messageSends: ["new", "at:put:", "ifFalse:", "==", "send:", "asJSONString"]
+}),
+$globals.AmberRemoteConnector.klass);
+
+$core.addMethod(
+$core.method({
+selector: "testM1",
 protocol: 'not yet classified',
 fn: function (){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(self["@socket"])._send_("hi");
+var $1,$2;
+$1="#output-list"._asJQuery();
+$2=$recv("<li>".__comma("Yeah!")).__comma("</li>");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($1)._append_($2);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"sendMessage",{},$globals.AmberRemoteConnector.klass)});
+}, function($ctx1) {$ctx1.fill(self,"testM1",{},$globals.AmberRemoteConnector.klass)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "sendMessage\x0a\x09socket send: 'hi'",
+source: "testM1\x0a\x09 '#output-list' asJQuery append: '<li>','Yeah!','</li>'",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["send:"]
+messageSends: ["append:", "asJQuery", ","]
+}),
+$globals.AmberRemoteConnector.klass);
+
+$core.addMethod(
+$core.method({
+selector: "testM2",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$1="#output-list"._asJQuery();
+$2=$recv("<li>".__comma("Yeah! Good!")).__comma("</li>");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($1)._append_($2);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testM2",{},$globals.AmberRemoteConnector.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testM2\x0a\x09 '#output-list' asJQuery append: '<li>','Yeah! Good!','</li>'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+messageSends: ["append:", "asJQuery", ","]
 }),
 $globals.AmberRemoteConnector.klass);
 
@@ -134,8 +250,93 @@ messageSends: ["createSocket"]
 }),
 $globals.AmberRemoteConnector.klass);
 
+$core.addMethod(
+$core.method({
+selector: "tryToReconnect",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+self["@socket"]=$recv($globals.NativeFunction)._constructor_value_("WebSocket","ws://echo.websocket.org");
+$recv(self["@socket"])._onopen_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1="#output-list"._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["asJQuery"]=1;
+//>>excludeEnd("ctx");
+return $recv($1)._append_("<li>Connection is restored.</li>");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["append:"]=1;
+//>>excludeEnd("ctx");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(self["@socket"])._onmessage_((function(evt){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return self._receiveMessage_(evt);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({evt:evt},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+$recv(self["@socket"])._onclose_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv("#output-list"._asJQuery())._append_("<li>Unsuccessful attempt to reconnect.</li>");
+return self._tryToReconnect();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"tryToReconnect",{},$globals.AmberRemoteConnector.klass)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "tryToReconnect\x0a\x09\x09socket := NativeFunction constructor: 'WebSocket' value: 'ws://echo.websocket.org'.\x0a\x09\x09socket onopen: [ '#output-list' asJQuery append: '<li>Connection is restored.</li>'].\x0a\x09\x09socket onmessage: [:evt | self receiveMessage: evt].\x0a\x09\x09socket onclose: ['#output-list' asJQuery append: '<li>Unsuccessful attempt to reconnect.</li>'. \x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09self tryToReconnect]",
+referencedClasses: ["NativeFunction"],
+//>>excludeEnd("ide");
+messageSends: ["constructor:value:", "onopen:", "append:", "asJQuery", "onmessage:", "receiveMessage:", "onclose:", "tryToReconnect"]
+}),
+$globals.AmberRemoteConnector.klass);
 
-$core.addClass('Main', $globals.Widget, ['task'], 'First');
+
+$core.addClass('Main', $globals.Widget, ['task', 'header'], 'First');
+$core.addMethod(
+$core.method({
+selector: "deleteTask",
+protocol: 'not yet classified',
+fn: function (){
+var self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv(self["@header"])._asJQuery())._remove();
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma($recv(self["@task"])._id()),"Delete","null");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"deleteTask",{},$globals.Main)});
+//>>excludeEnd("ctx");
+},
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "deleteTask\x0a\x09header asJQuery remove.\x0a\x09AmberRemoteConnector sendMessage: '',task id type: 'Delete' name: 'null'",
+referencedClasses: ["AmberRemoteConnector"],
+//>>excludeEnd("ide");
+messageSends: ["remove", "asJQuery", "sendMessage:type:name:", ",", "id"]
+}),
+$globals.Main);
+
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -154,6 +355,7 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 self["@task"]=$recv($globals.NewTask)._new();
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma($recv(self["@task"])._id()),"AmberRemoteConnector testM1",$recv(self["@task"])._name());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Main)});
@@ -161,10 +363,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09task := NewTask new",
-referencedClasses: ["NewTask"],
+source: "initialize\x0a\x09super initialize.\x0a\x09task := NewTask new.\x0a\x09AmberRemoteConnector sendMessage: '',task id type: 'AmberRemoteConnector testM1' name: task name",
+referencedClasses: ["NewTask", "AmberRemoteConnector"],
 //>>excludeEnd("ide");
-messageSends: ["initialize", "new"]
+messageSends: ["initialize", "new", "sendMessage:type:name:", ",", "id", "name"]
 }),
 $globals.Main);
 
@@ -177,7 +379,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$7,$6,$5,$4,$8,$9,$2;
+var $1,$3,$5,$4,$6,$8,$9,$7,$2;
 $1=$recv(html)._table();
 $recv($1)._width_("100%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -191,50 +393,68 @@ $3=$recv(html)._td();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["td"]=1;
 //>>excludeEnd("ctx");
-$recv($3)._width_("90%");
+$recv($3)._width_("85%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["width:"]=2;
 //>>excludeEnd("ctx");
-$7=$recv(self["@task"])._id();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["id"]=1;
-//>>excludeEnd("ctx");
-$6="".__comma($7);
-$5=$recv($6).__comma(") ");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
-//>>excludeEnd("ctx");
-$4=$recv($5).__comma($recv(self["@task"])._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
-//>>excludeEnd("ctx");
-$recv($3)._with_($4);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["with:"]=2;
-//>>excludeEnd("ctx");
-$recv($3)._yourself();
-$8=$recv(html)._td();
-$recv($8)._width_("10%");
-return $recv($8)._with_((function(){
+$4=$recv($3)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$9=$recv(html)._input();
-$recv($9)._type_("checkbox");
-$recv($9)._onClick_((function(){
+$5=$recv(html)._p();
+$recv($5)._with_("".__comma($recv(self["@task"])._name()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["with:"]=3;
+//>>excludeEnd("ctx");
+return $recv($5)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["with:"]=2;
+//>>excludeEnd("ctx");
+$4;
+$6=$recv(html)._td();
+$recv($6)._width_("15%");
+$7=$recv($6)._with_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$8=$recv(html)._input();
+$recv($8)._type_("checkbox");
+$recv($8)._onClick_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 return $recv(self["@task"])._changeStatus();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
 //>>excludeEnd("ctx");
 }));
-return $recv($9)._value_($recv(self["@task"])._id());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+$ctx3.sendIdx["onClick:"]=1;
+//>>excludeEnd("ctx");
+$recv($8)._id_($recv(self["@task"])._id());
+$9=$recv(html)._button();
+$recv($9)._with_("D");
+return $recv($9)._onClick_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return self._deleteTask();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
 //>>excludeEnd("ctx");
 }));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.sendIdx["with:"]=4;
+//>>excludeEnd("ctx");
+return $7;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -242,6 +462,7 @@ return $recv($9)._value_($recv(self["@task"])._id());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["with:"]=1;
 //>>excludeEnd("ctx");
+self["@header"]=$2;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},$globals.Main)});
@@ -249,10 +470,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["html"],
-source: "renderOn: html\x0a    html table \x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '90%'; \x0a\x09            \x09\x09with: '',task id,') ', task name;\x0a\x09\x09\x09\x09\x09\x09yourself.\x0a\x09            html td width: '10%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09            type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus];\x0a\x09\x09\x09\x09\x09\x09\x09\x09value: task id.]]",
+source: "renderOn: html\x0a    header := html table\x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '85%';\x0a\x09\x09\x09\x09\x09\x09with: [html p\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with: '',task name;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09yourself.].\x0a\x09            html td width: '15%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus];\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09id: task id.\x0a\x09\x09\x09\x09\x09\x09\x09\x09 html button\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with:'D';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [self deleteTask].]]\x0a\x09\x09\x09\x09\x09\x09",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["width:", "table", "with:", "td", ",", "id", "name", "yourself", "type:", "input", "onClick:", "changeStatus", "value:"]
+messageSends: ["width:", "table", "with:", "td", "p", ",", "name", "yourself", "type:", "input", "onClick:", "changeStatus", "id:", "id", "button", "deleteTask"]
 }),
 $globals.Main);
 
@@ -293,27 +514,36 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
+var $1,$2;
 $1=$recv(self["@check"]).__eq(false);
 if($core.assert($1)){
 self["@check"]=true;
 self["@check"];
+$2="".__comma(self["@id"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_($2,"SetCheck","null");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["sendMessage:type:name:"]=1;
+//>>excludeEnd("ctx");
 };
 if(!$core.assert($1)){
 self["@check"]=false;
 self["@check"];
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma(self["@id"]),"RemoveCheck","null");
 };
-return self["@check"];
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"changeStatus",{},$globals.NewTask)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "changeStatus\x0a\x09check = false\x0a\x09\x09ifTrue: [check := true];\x0a\x09\x09ifFalse: [check := false].\x0a  ^check",
-referencedClasses: [],
+source: "changeStatus\x0a\x09check = false\x0a\x09\x09ifTrue: [check := true.\x0a\x09\x09\x09\x09\x09AmberRemoteConnector sendMessage: '',id type: 'SetCheck' name: 'null'];\x0a\x09\x09ifFalse: [check := false.\x0a\x09\x09\x09\x09\x09AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].",
+referencedClasses: ["AmberRemoteConnector"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "ifFalse:"]
+messageSends: ["ifTrue:", "=", "sendMessage:type:name:", ",", "ifFalse:"]
 }),
 $globals.NewTask);
 
@@ -425,7 +655,7 @@ messageSends: []
 $globals.NewTask);
 
 
-$globals.NewTask.klass.iVarNames = ['lastId','taskCollection','idTest','nameTest'];
+$globals.NewTask.klass.iVarNames = ['lastId','taskCollection'];
 $core.addMethod(
 $core.method({
 selector: "addToCollection",

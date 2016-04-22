@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title>First</title>
+    <title>System of time management</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="author" content="" />
     <script 
@@ -12,49 +12,52 @@
 
     <style>
        .block1 { 
-        border:1px solid #9E9E9E;
-        width: 400px; 
-        height: 200px;
-        background: #D3D3D3;
-        overflow-y : auto;
+          border:1px solid #9E9E9E;
+          width: 400px; 
+          height: 200px;
+          background: #D3D3D3;
+          overflow-y : auto;
         }
        .button {
-        text-align:center; 
-        padding:12px 44px; 
-        -webkit-border-radius:14px;
-        -moz-border-radius:14px; 
-        border-radius: 14px; 
-        font:12px Arial, Helvetica, sans-serif; 
-        font-weight:bold; 
-        color:black; 
-        background-color:#C0C0C0; 
+          text-align:center; 
+          padding:12px 44px; 
+          -webkit-border-radius:14px;
+          -moz-border-radius:14px; 
+          border-radius: 14px; 
+          font:12px Arial, Helvetica, sans-serif; 
+          font-weight:bold; 
+          color:black; 
+          background-color:#C0C0C0; 
         }
         .input {
-        border:1px solid #9E9E9E;
-        padding: 3px;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        background: #C0C0C0;
-        font:12px Arial, Helvetica, sans-serif; 
-        font-weight:bold; 
-        color:black;
-        width: 200px;
+          border:1px solid #9E9E9E;
+          padding: 3px;
+          margin-top: 2px;
+          margin-bottom: 2px;
+          background: #C0C0C0;
+          font:12px Arial, Helvetica, sans-serif; 
+          font-weight:bold; 
+          color:black;
+          width: 200px;
         }
         .title {
-        font:20px Arial, Helvetica, sans-serif; 
-        font-weight:bold; 
-        color:black;
+          font:20px Arial, Helvetica, sans-serif; 
+          font-weight:bold; 
+          color:black;
+        }
+        .body {
+          background: #DCDCDC;
         }
 
 
     </style>
   </head>
 
-  <body bgcolor="DCDCDC">
+  <body class="body">
+
   <script type='text/javascript'>
       require(['app'], function (amber) {
           amber.initialize({
-            //used for all new packages in IDE
             'transport.defaultAmdNamespace': "amber-first"
           }).then(function () {
               require(["amber-ide-starter-dialog"], function (dlg) { dlg.start(); });
@@ -63,52 +66,28 @@
       });
   </script> 
 
-  			
- <!-- <button id="jquery-first">First</button>
-  <button id="jquery-second">Second</button> -->
+  <table width="100%">
+    <td width="30%"></td>
+    <td align="center" width="40%">
+      <table>
+      <caption><h3 class="title">Список задач</h3></caption>
+      <td>
+        <div class="block1"> 
+        <div id="tasks"></div>
+        </div>
+        <input class="input" id="input"/>
+        <button class="button" onclick="require(['app'], function (amber) {
+                 amber.globals.Main._tryExample();})">Добавить задачу.</button>  
 
-<!--  <button onclick="window.open('test.html','newwin','top=15, left=20, menubar=0, toolbar=0, location=0, directories=0, status=0, scrollbars=0, resizable=0, width=400, height=100');">Button</button> -->
- <!-- <div id="client-main"> -->
-
- <table width="100%">
-
-   <td width="30%"></td>
-   <td align="center" width="40%">
-     <table>
-     <caption><h3 class="title">Список задач</h3></caption>
-     <td>
-       <div class="block1"> 
-       <div id="tasks"></div>
-       </div>
-       <input class="input" id="input"/>
-       <button class="button" onclick="require(['app'], function (amber) {
-                amber.globals.Main._tryExample();})">Добавить задачу.</button>  
-       <ol id="output-list"></ol>
-     </td>
-     </table>
-   </td>
-   <td width="30%"></td>
-  <!-- <td valign="top">
-     <button onclick="require(['app'], function (amber) {
-              amber.globals.AmberRemoteConnector._tryToConnect();})">Connect.</button>  
-     <button onclick="require(['app'], function (amber) {
-              amber.globals.AmberRemoteConnector._sendMessage();})">Send.</button>    
-     <ol id="output-list"></ol>  
-   </td>-->
-
- </table>
-
-
- 
-
-
- <!--<button onclick="require(['app'], function (amber) {
-              amber.globals.AmberRemoteConnector._tryToConnect();})">Connect.</button>  
-
-  <button onclick="require(['app'], function (amber) {
-              amber.globals.AmberRemoteConnector._sendMessage();})">Send.</button>                               
-
-<ol id="output-list"></ol>-->
+      </td>
+      </table>
+    </td>
+    <td width="30%"></td>
+  </table>
+  <ol id="output-list"/>
   </body>
-
+   
 </html>
+
+
+<!--ws://echo.websocket.org-->
