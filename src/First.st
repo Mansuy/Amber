@@ -88,19 +88,20 @@ renderOn: html
   			html table
     		width: '100%';
     		with: [
-	            html td width: '85%';
+    			html td width: '5%';
+						with:[html input
+									type: 'checkbox';
+									onClick: [task changeStatus: taskName];
+									id: task id].
+	            html td width: '88%';
 						with: [taskName := html label
 									for: task id;
 									with: '',task name;
 									class: 'base'].
-	            html td width: '15%'; 
+	            html td width: '7%'; 
 	            		with: [html input
-									type: 'checkbox';
-									onClick: [task changeStatus: taskName];
-									id: task id.
-								 html input
 									type: 'image';
-									src: 'images/GarbageBin.png';
+									src: 'images/Bin.png';
 									alt: 'Submit';
 									width: '18';
 									height: '18';

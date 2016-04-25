@@ -389,7 +389,7 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$7,$8,$6,$9,$10,$11,$4,$2;
+var $1,$3,$5,$7,$8,$6,$9,$11,$10,$12,$13,$4,$2;
 $1=$recv(html)._div();
 $recv($1)._class_("dragElement");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -412,7 +412,7 @@ $5=$recv(html)._td();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["td"]=1;
 //>>excludeEnd("ctx");
-$recv($5)._width_("85%");
+$recv($5)._width_("5%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["width:"]=2;
 //>>excludeEnd("ctx");
@@ -420,18 +420,31 @@ $6=$recv($5)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$7=$recv(html)._label();
+$7=$recv(html)._input();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["input"]=1;
+//>>excludeEnd("ctx");
+$recv($7)._type_("checkbox");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["type:"]=1;
+//>>excludeEnd("ctx");
+$recv($7)._onClick_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx5) {
+//>>excludeEnd("ctx");
+return $recv(self["@task"])._changeStatus_(self["@taskName"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["onClick:"]=1;
+//>>excludeEnd("ctx");
 $8=$recv(self["@task"])._id();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx4.sendIdx["id"]=1;
 //>>excludeEnd("ctx");
-$recv($7)._for_($8);
-$recv($7)._with_("".__comma($recv(self["@task"])._name()));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["with:"]=4;
-//>>excludeEnd("ctx");
-self["@taskName"]=$recv($7)._class_("base");
-return self["@taskName"];
+return $recv($7)._id_($8);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
 //>>excludeEnd("ctx");
@@ -441,52 +454,59 @@ $ctx3.sendIdx["with:"]=3;
 //>>excludeEnd("ctx");
 $6;
 $9=$recv(html)._td();
-$recv($9)._width_("15%");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["td"]=2;
+//>>excludeEnd("ctx");
+$recv($9)._width_("88%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["width:"]=3;
 //>>excludeEnd("ctx");
-return $recv($9)._with_((function(){
+$10=$recv($9)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-$10=$recv(html)._input();
+$11=$recv(html)._label();
+$recv($11)._for_($recv(self["@task"])._id());
+$recv($11)._with_("".__comma($recv(self["@task"])._name()));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["input"]=1;
+$ctx4.sendIdx["with:"]=5;
 //>>excludeEnd("ctx");
-$recv($10)._type_("checkbox");
+self["@taskName"]=$recv($11)._class_("base");
+return self["@taskName"];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["type:"]=1;
-//>>excludeEnd("ctx");
-$recv($10)._onClick_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx5) {
-//>>excludeEnd("ctx");
-return $recv(self["@task"])._changeStatus_(self["@taskName"]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({},$ctx4,5)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx4.sendIdx["onClick:"]=1;
+$ctx3.sendIdx["with:"]=4;
 //>>excludeEnd("ctx");
-$recv($10)._id_($recv(self["@task"])._id());
-$11=$recv(html)._input();
-$recv($11)._type_("image");
-$recv($11)._src_("images/GarbageBin.png");
-$recv($11)._alt_("Submit");
-$recv($11)._width_("18");
-$recv($11)._height_("18");
-return $recv($11)._onClick_((function(){
+$10;
+$12=$recv(html)._td();
+$recv($12)._width_("7%");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["width:"]=4;
+//>>excludeEnd("ctx");
+return $recv($12)._with_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+$13=$recv(html)._input();
+$recv($13)._type_("image");
+$recv($13)._src_("images/Bin.png");
+$recv($13)._alt_("Submit");
+$recv($13)._width_("18");
+$recv($13)._height_("18");
+return $recv($13)._onClick_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx5) {
 //>>excludeEnd("ctx");
 return self._deleteTask();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx5) {$ctx5.fillBlock({},$ctx4,6)});
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,7)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -512,10 +532,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["html"],
-source: "renderOn: html\x0a\x09header := html div\x0a\x09class: 'dragElement';\x0a\x09with:[\x0a  \x09\x09\x09html table\x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '85%';\x0a\x09\x09\x09\x09\x09\x09with: [taskName := html label\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09for: task id;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with: '',task name;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09class: 'base'].\x0a\x09            html td width: '15%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus: taskName];\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09id: task id.\x0a\x09\x09\x09\x09\x09\x09\x09\x09 html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'image';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09src: 'images/GarbageBin.png';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09alt: 'Submit';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09width: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09height: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [self deleteTask].]]]\x0a\x09\x09",
+source: "renderOn: html\x0a\x09header := html div\x0a\x09class: 'dragElement';\x0a\x09with:[\x0a  \x09\x09\x09html table\x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a    \x09\x09\x09html td width: '5%';\x0a\x09\x09\x09\x09\x09\x09with:[html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus: taskName];\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09id: task id].\x0a\x09            html td width: '88%';\x0a\x09\x09\x09\x09\x09\x09with: [taskName := html label\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09for: task id;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with: '',task name;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09class: 'base'].\x0a\x09            html td width: '7%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'image';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09src: 'images/Bin.png';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09alt: 'Submit';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09width: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09height: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [self deleteTask].]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["class:", "div", "with:", "width:", "table", "td", "for:", "label", "id", ",", "name", "type:", "input", "onClick:", "changeStatus:", "id:", "src:", "alt:", "height:", "deleteTask"]
+messageSends: ["class:", "div", "with:", "width:", "table", "td", "type:", "input", "onClick:", "changeStatus:", "id:", "id", "for:", "label", ",", "name", "src:", "alt:", "height:", "deleteTask"]
 }),
 $globals.Main);
 
