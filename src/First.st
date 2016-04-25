@@ -19,7 +19,7 @@ loadData
 	|call|
 	 '#output-list' asJQuery append: '<li>Connected</li>'. 
 	call := HashedCollection new.
-	call at: 'Operation' put: 'AmberRemoteConnector testM2'.
+	call at: 'Operation' put: 'Load data'.
 	
 	socket send: call asJSONString
 !
@@ -29,14 +29,15 @@ receiveMessage: aBlock
 	dict := Dictionary new. 
 	dict := (SmalltalkImage current readJSObject: (JSON parse: aBlock data)) copy.
 	d1 := dict at: 'Operation'.
-	(Compiler new evaluateExpression: (d1))
+	"(Compiler new evaluateExpression: (d1))"
+	'#output-list' asJQuery append: '<li>',aBlock data,'</li>'
 !
 
 sendMessage: taskId type: oType name: taskName
 	|call|
 	call := HashedCollection new.
-	call at: 'Task id' put: taskId.
 	call at: 'Operation' put: oType.
+	call at: 'Task id' put: taskId.
 	taskName == 'null' 
 		ifFalse: [call at: 'Task name' put: taskName.].
 	
@@ -64,7 +65,7 @@ tryToReconnect
 ! !
 
 Widget subclass: #Main
-	instanceVariableNames: 'task header'
+	instanceVariableNames: 'task header taskName'
 	package: 'First'!
 
 !Main methodsFor: 'not yet classified'!
@@ -77,25 +78,33 @@ deleteTask
 initialize
 	super initialize.
 	task := NewTask new.
-	AmberRemoteConnector sendMessage: '',task id type: 'AmberRemoteConnector testM1' name: task name
+	AmberRemoteConnector sendMessage: '',task id type: 'Add' name: task name
 !
 
 renderOn: html
-    header := html table
+	header := html div
+	class: 'dragElement';
+	with:[
+  			html table
     		width: '100%';
     		with: [
 	            html td width: '85%';
-						with: [html p
+						with: [taskName := html label
+									for: task id;
 									with: '',task name;
-									yourself.].
+									class: 'base'].
 	            html td width: '15%'; 
 	            		with: [html input
 									type: 'checkbox';
-									onClick: [task changeStatus];
+									onClick: [task changeStatus: taskName];
 									id: task id.
-								 html button
-									with:'D';
-									onClick: [self deleteTask].]]
+								 html input
+									type: 'image';
+									src: 'images/GarbageBin.png';
+									alt: 'Submit';
+									width: '18';
+									height: '18';
+									onClick: [self deleteTask].]]]
 ! !
 
 Main class instanceVariableNames: 'taskCollections'!
@@ -112,12 +121,18 @@ Object subclass: #NewTask
 
 !NewTask methodsFor: 'not yet classified'!
 
-changeStatus
+changeStatus: taskName
 	check = false
 		ifTrue: [check := true.
+					taskName asJQuery empty.
+					taskName asJQuery prop: 'class' val: 'hover'.
+					taskName asJQuery append: name.
 					AmberRemoteConnector sendMessage: '',id type: 'SetCheck' name: 'null'];
 		ifFalse: [check := false.
-					AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].
+					 taskName asJQuery empty.
+					 taskName asJQuery prop: 'class' val: 'base'.
+					 taskName asJQuery append: name.
+				     AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].
 !
 
 check

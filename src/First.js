@@ -80,7 +80,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $recv("#output-list"._asJQuery())._append_("<li>Connected</li>");
 call=$recv($globals.HashedCollection)._new();
-$recv(call)._at_put_("Operation","AmberRemoteConnector testM2");
+$recv(call)._at_put_("Operation","Load data");
 $recv(self["@socket"])._send_($recv(call)._asJSONString());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -89,7 +89,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "loadData\x0a\x09|call|\x0a\x09 '#output-list' asJQuery append: '<li>Connected</li>'. \x0a\x09call := HashedCollection new.\x0a\x09call at: 'Operation' put: 'AmberRemoteConnector testM2'.\x0a\x09\x0a\x09socket send: call asJSONString",
+source: "loadData\x0a\x09|call|\x0a\x09 '#output-list' asJQuery append: '<li>Connected</li>'. \x0a\x09call := HashedCollection new.\x0a\x09call at: 'Operation' put: 'Load data'.\x0a\x09\x0a\x09socket send: call asJSONString",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 messageSends: ["append:", "asJQuery", "new", "at:put:", "send:", "asJSONString"]
@@ -106,13 +106,23 @@ var dict,d1,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $2,$4,$3,$1,$5,$6;
 dict=$recv($globals.Dictionary)._new();
+$2=$recv($globals.SmalltalkImage)._current();
+$4=$recv(aBlock)._data();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["new"]=1;
+$ctx1.sendIdx["data"]=1;
 //>>excludeEnd("ctx");
-dict=$recv($recv($recv($globals.SmalltalkImage)._current())._readJSObject_($recv($globals.JSON)._parse_($recv(aBlock)._data())))._copy();
+$3=$recv($globals.JSON)._parse_($4);
+$1=$recv($2)._readJSObject_($3);
+dict=$recv($1)._copy();
 d1=$recv(dict)._at_("Operation");
-$recv($recv($globals.Compiler)._new())._evaluateExpression_(d1);
+$5="#output-list"._asJQuery();
+$6=$recv("<li>".__comma($recv(aBlock)._data())).__comma("</li>");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx[","]=1;
+//>>excludeEnd("ctx");
+$recv($5)._append_($6);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"receiveMessage:",{aBlock:aBlock,dict:dict,d1:d1,result:result},$globals.AmberRemoteConnector.klass)});
@@ -120,10 +130,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "receiveMessage: aBlock\x0a\x09|dict d1 result|\x0a\x09dict := Dictionary new. \x0a\x09dict := (SmalltalkImage current readJSObject: (JSON parse: aBlock data)) copy.\x0a\x09d1 := dict at: 'Operation'.\x0a\x09(Compiler new evaluateExpression: (d1))",
-referencedClasses: ["Dictionary", "SmalltalkImage", "JSON", "Compiler"],
+source: "receiveMessage: aBlock\x0a\x09|dict d1 result|\x0a\x09dict := Dictionary new. \x0a\x09dict := (SmalltalkImage current readJSObject: (JSON parse: aBlock data)) copy.\x0a\x09d1 := dict at: 'Operation'.\x0a\x09\x22(Compiler new evaluateExpression: (d1))\x22\x0a\x09'#output-list' asJQuery append: '<li>',aBlock data,'</li>'",
+referencedClasses: ["Dictionary", "SmalltalkImage", "JSON"],
 //>>excludeEnd("ide");
-messageSends: ["new", "copy", "readJSObject:", "current", "parse:", "data", "at:", "evaluateExpression:"]
+messageSends: ["new", "copy", "readJSObject:", "current", "parse:", "data", "at:", "append:", "asJQuery", ","]
 }),
 $globals.AmberRemoteConnector.klass);
 
@@ -139,11 +149,11 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 call=$recv($globals.HashedCollection)._new();
-$recv(call)._at_put_("Task id",taskId);
+$recv(call)._at_put_("Operation",oType);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=1;
 //>>excludeEnd("ctx");
-$recv(call)._at_put_("Operation",oType);
+$recv(call)._at_put_("Task id",taskId);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["at:put:"]=2;
 //>>excludeEnd("ctx");
@@ -159,7 +169,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["taskId", "oType", "taskName"],
-source: "sendMessage: taskId type: oType name: taskName\x0a\x09|call|\x0a\x09call := HashedCollection new.\x0a\x09call at: 'Task id' put: taskId.\x0a\x09call at: 'Operation' put: oType.\x0a\x09taskName == 'null' \x0a\x09\x09ifFalse: [call at: 'Task name' put: taskName.].\x0a\x09\x0a\x09socket send: call asJSONString",
+source: "sendMessage: taskId type: oType name: taskName\x0a\x09|call|\x0a\x09call := HashedCollection new.\x0a\x09call at: 'Operation' put: oType.\x0a\x09call at: 'Task id' put: taskId.\x0a\x09taskName == 'null' \x0a\x09\x09ifFalse: [call at: 'Task name' put: taskName.].\x0a\x09\x0a\x09socket send: call asJSONString",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 messageSends: ["new", "at:put:", "ifFalse:", "==", "send:", "asJSONString"]
@@ -311,7 +321,7 @@ messageSends: ["constructor:value:", "onopen:", "append:", "asJQuery", "onmessag
 $globals.AmberRemoteConnector.klass);
 
 
-$core.addClass('Main', $globals.Widget, ['task', 'header'], 'First');
+$core.addClass('Main', $globals.Widget, ['task', 'header', 'taskName'], 'First');
 $core.addMethod(
 $core.method({
 selector: "deleteTask",
@@ -355,7 +365,7 @@ $ctx1.supercall = true,
 $ctx1.supercall = false;
 //>>excludeEnd("ctx");;
 self["@task"]=$recv($globals.NewTask)._new();
-$recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma($recv(self["@task"])._id()),"AmberRemoteConnector testM1",$recv(self["@task"])._name());
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma($recv(self["@task"])._id()),"Add",$recv(self["@task"])._name());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"initialize",{},$globals.Main)});
@@ -363,7 +373,7 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x09task := NewTask new.\x0a\x09AmberRemoteConnector sendMessage: '',task id type: 'AmberRemoteConnector testM1' name: task name",
+source: "initialize\x0a\x09super initialize.\x0a\x09task := NewTask new.\x0a\x09AmberRemoteConnector sendMessage: '',task id type: 'Add' name: task name",
 referencedClasses: ["NewTask", "AmberRemoteConnector"],
 //>>excludeEnd("ide");
 messageSends: ["initialize", "new", "sendMessage:type:name:", ",", "id", "name"]
@@ -379,34 +389,106 @@ var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$3,$5,$4,$6,$8,$9,$7,$2;
-$1=$recv(html)._table();
-$recv($1)._width_("100%");
+var $1,$3,$5,$7,$8,$6,$9,$10,$11,$4,$2;
+$1=$recv(html)._div();
+$recv($1)._class_("dragElement");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.sendIdx["width:"]=1;
+$ctx1.sendIdx["class:"]=1;
 //>>excludeEnd("ctx");
 $2=$recv($1)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$3=$recv(html)._td();
+$3=$recv(html)._table();
+$recv($3)._width_("100%");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["td"]=1;
-//>>excludeEnd("ctx");
-$recv($3)._width_("85%");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["width:"]=2;
+$ctx2.sendIdx["width:"]=1;
 //>>excludeEnd("ctx");
 $4=$recv($3)._with_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-$5=$recv(html)._p();
-$recv($5)._with_("".__comma($recv(self["@task"])._name()));
+$5=$recv(html)._td();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["td"]=1;
+//>>excludeEnd("ctx");
+$recv($5)._width_("85%");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["width:"]=2;
+//>>excludeEnd("ctx");
+$6=$recv($5)._with_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+$7=$recv(html)._label();
+$8=$recv(self["@task"])._id();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["id"]=1;
+//>>excludeEnd("ctx");
+$recv($7)._for_($8);
+$recv($7)._with_("".__comma($recv(self["@task"])._name()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["with:"]=4;
+//>>excludeEnd("ctx");
+self["@taskName"]=$recv($7)._class_("base");
+return self["@taskName"];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx3.sendIdx["with:"]=3;
 //>>excludeEnd("ctx");
-return $recv($5)._yourself();
+$6;
+$9=$recv(html)._td();
+$recv($9)._width_("15%");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx3.sendIdx["width:"]=3;
+//>>excludeEnd("ctx");
+return $recv($9)._with_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+$10=$recv(html)._input();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["input"]=1;
+//>>excludeEnd("ctx");
+$recv($10)._type_("checkbox");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["type:"]=1;
+//>>excludeEnd("ctx");
+$recv($10)._onClick_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx5) {
+//>>excludeEnd("ctx");
+return $recv(self["@task"])._changeStatus_(self["@taskName"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,5)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx4.sendIdx["onClick:"]=1;
+//>>excludeEnd("ctx");
+$recv($10)._id_($recv(self["@task"])._id());
+$11=$recv(html)._input();
+$recv($11)._type_("image");
+$recv($11)._src_("images/GarbageBin.png");
+$recv($11)._alt_("Submit");
+$recv($11)._width_("18");
+$recv($11)._height_("18");
+return $recv($11)._onClick_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx5) {
+//>>excludeEnd("ctx");
+return self._deleteTask();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,6)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
+//>>excludeEnd("ctx");
+}));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -414,47 +496,7 @@ return $recv($5)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx2.sendIdx["with:"]=2;
 //>>excludeEnd("ctx");
-$4;
-$6=$recv(html)._td();
-$recv($6)._width_("15%");
-$7=$recv($6)._with_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-$8=$recv(html)._input();
-$recv($8)._type_("checkbox");
-$recv($8)._onClick_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return $recv(self["@task"])._changeStatus();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx3.sendIdx["onClick:"]=1;
-//>>excludeEnd("ctx");
-$recv($8)._id_($recv(self["@task"])._id());
-$9=$recv(html)._button();
-$recv($9)._with_("D");
-return $recv($9)._onClick_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return self._deleteTask();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["with:"]=4;
-//>>excludeEnd("ctx");
-return $7;
+return $4;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -470,10 +512,10 @@ return self;
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["html"],
-source: "renderOn: html\x0a    header := html table\x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '85%';\x0a\x09\x09\x09\x09\x09\x09with: [html p\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with: '',task name;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09yourself.].\x0a\x09            html td width: '15%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus];\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09id: task id.\x0a\x09\x09\x09\x09\x09\x09\x09\x09 html button\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with:'D';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [self deleteTask].]]\x0a\x09\x09\x09\x09\x09\x09",
+source: "renderOn: html\x0a\x09header := html div\x0a\x09class: 'dragElement';\x0a\x09with:[\x0a  \x09\x09\x09html table\x0a    \x09\x09width: '100%';\x0a    \x09\x09with: [\x0a\x09            html td width: '85%';\x0a\x09\x09\x09\x09\x09\x09with: [taskName := html label\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09for: task id;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09with: '',task name;\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09class: 'base'].\x0a\x09            html td width: '15%'; \x0a\x09            \x09\x09with: [html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'checkbox';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [task changeStatus: taskName];\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09id: task id.\x0a\x09\x09\x09\x09\x09\x09\x09\x09 html input\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09type: 'image';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09src: 'images/GarbageBin.png';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09alt: 'Submit';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09width: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09height: '18';\x0a\x09\x09\x09\x09\x09\x09\x09\x09\x09onClick: [self deleteTask].]]]\x0a\x09\x09",
 referencedClasses: [],
 //>>excludeEnd("ide");
-messageSends: ["width:", "table", "with:", "td", "p", ",", "name", "yourself", "type:", "input", "onClick:", "changeStatus", "id:", "id", "button", "deleteTask"]
+messageSends: ["class:", "div", "with:", "width:", "table", "td", "for:", "label", "id", ",", "name", "type:", "input", "onClick:", "changeStatus:", "id:", "src:", "alt:", "height:", "deleteTask"]
 }),
 $globals.Main);
 
@@ -507,23 +549,47 @@ $globals.Main.klass);
 $core.addClass('NewTask', $globals.Object, ['name', 'count', 'id', 'check'], 'First');
 $core.addMethod(
 $core.method({
-selector: "changeStatus",
+selector: "changeStatus:",
 protocol: 'not yet classified',
-fn: function (){
+fn: function (taskName){
 var self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3,$4,$5,$6,$7;
 $1=$recv(self["@check"]).__eq(false);
 if($core.assert($1)){
 self["@check"]=true;
 self["@check"];
-$2="".__comma(self["@id"]);
+$2=$recv(taskName)._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=1;
+//>>excludeEnd("ctx");
+$recv($2)._empty();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["empty"]=1;
+//>>excludeEnd("ctx");
+$3=$recv(taskName)._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=2;
+//>>excludeEnd("ctx");
+$recv($3)._prop_val_("class","hover");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["prop:val:"]=1;
+//>>excludeEnd("ctx");
+$4=$recv(taskName)._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=3;
+//>>excludeEnd("ctx");
+$recv($4)._append_(self["@name"]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["append:"]=1;
+//>>excludeEnd("ctx");
+$5="".__comma(self["@id"]);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx[","]=1;
 //>>excludeEnd("ctx");
-$recv($globals.AmberRemoteConnector)._sendMessage_type_name_($2,"SetCheck","null");
+$recv($globals.AmberRemoteConnector)._sendMessage_type_name_($5,"SetCheck","null");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.sendIdx["sendMessage:type:name:"]=1;
 //>>excludeEnd("ctx");
@@ -531,19 +597,30 @@ $ctx1.sendIdx["sendMessage:type:name:"]=1;
 if(!$core.assert($1)){
 self["@check"]=false;
 self["@check"];
+$6=$recv(taskName)._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=4;
+//>>excludeEnd("ctx");
+$recv($6)._empty();
+$7=$recv(taskName)._asJQuery();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.sendIdx["asJQuery"]=5;
+//>>excludeEnd("ctx");
+$recv($7)._prop_val_("class","base");
+$recv($recv(taskName)._asJQuery())._append_(self["@name"]);
 $recv($globals.AmberRemoteConnector)._sendMessage_type_name_("".__comma(self["@id"]),"RemoveCheck","null");
 };
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"changeStatus",{},$globals.NewTask)});
+}, function($ctx1) {$ctx1.fill(self,"changeStatus:",{taskName:taskName},$globals.NewTask)});
 //>>excludeEnd("ctx");
 },
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "changeStatus\x0a\x09check = false\x0a\x09\x09ifTrue: [check := true.\x0a\x09\x09\x09\x09\x09AmberRemoteConnector sendMessage: '',id type: 'SetCheck' name: 'null'];\x0a\x09\x09ifFalse: [check := false.\x0a\x09\x09\x09\x09\x09AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].",
+args: ["taskName"],
+source: "changeStatus: taskName\x0a\x09check = false\x0a\x09\x09ifTrue: [check := true.\x0a\x09\x09\x09\x09\x09taskName asJQuery empty.\x0a\x09\x09\x09\x09\x09taskName asJQuery prop: 'class' val: 'hover'.\x0a\x09\x09\x09\x09\x09taskName asJQuery append: name.\x0a\x09\x09\x09\x09\x09AmberRemoteConnector sendMessage: '',id type: 'SetCheck' name: 'null'];\x0a\x09\x09ifFalse: [check := false.\x0a\x09\x09\x09\x09\x09 taskName asJQuery empty.\x0a\x09\x09\x09\x09\x09 taskName asJQuery prop: 'class' val: 'base'.\x0a\x09\x09\x09\x09\x09 taskName asJQuery append: name.\x0a\x09\x09\x09\x09     AmberRemoteConnector sendMessage: '',id type: 'RemoveCheck' name: 'null'].\x0a\x09\x09",
 referencedClasses: ["AmberRemoteConnector"],
 //>>excludeEnd("ide");
-messageSends: ["ifTrue:", "=", "sendMessage:type:name:", ",", "ifFalse:"]
+messageSends: ["ifTrue:", "=", "empty", "asJQuery", "prop:val:", "append:", "sendMessage:type:name:", ",", "ifFalse:"]
 }),
 $globals.NewTask);
 

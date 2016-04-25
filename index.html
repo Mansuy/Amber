@@ -1,4 +1,5 @@
 
+<!DOCTYPE html> 
 <html>
 
   <head>
@@ -9,12 +10,14 @@
     	type='text/javascript' 
     	src='the.js'>
     </script>
-
+    <script src="http://code.jquery.com/jquery-1.6.4.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
     <style>
        .block1 { 
           border:1px solid #9E9E9E;
           width: 400px; 
-          height: 200px;
+          height: 500px;
           background: #D3D3D3;
           overflow-y : auto;
         }
@@ -30,15 +33,16 @@
           background-color:#C0C0C0; 
         }
         .input {
-          border:1px solid #9E9E9E;
+          border:0px solid #9E9E9E;
           padding: 3px;
           margin-top: 2px;
           margin-bottom: 2px;
-          background: #C0C0C0;
+          background: #D3D3D3;
           font:12px Arial, Helvetica, sans-serif; 
           font-weight:bold; 
           color:black;
-          width: 200px;
+          width: 320px;
+          border-bottom: 1px solid #9E9E9E;
         }
         .title {
           font:20px Arial, Helvetica, sans-serif; 
@@ -48,43 +52,66 @@
         .body {
           background: #DCDCDC;
         }
-
+        .hover { 
+          text-decoration: line-through; 
+        }
+        .base { 
+          text-decoration: none; 
+        }
+         div.dragElement {}
 
     </style>
+
+    <script>
+       $(function() {
+          $( "#tasks" ).sortable();
+          $( "#tasks" ).disableSelection();
+        });
+    </script>
+
   </head>
 
   <body class="body">
 
-  <script type='text/javascript'>
-      require(['app'], function (amber) {
-          amber.initialize({
-            'transport.defaultAmdNamespace': "amber-first"
-          }).then(function () {
-              require(["amber-ide-starter-dialog"], function (dlg) { dlg.start(); });
-              amber.globals.AmberRemoteConnector._tryToConnect();
-          });
-      });
-  </script> 
+    <script type='text/javascript'>
+        require(['app'], function (amber) {
+            amber.initialize({
+              'transport.defaultAmdNamespace': "amber-first"
+            }).then(function () {
+                require(["amber-ide-starter-dialog"], function (dlg) { dlg.start(); });
+                amber.globals.AmberRemoteConnector._tryToConnect();
+            });
+        });
+    </script> 
 
-  <table width="100%">
-    <td width="30%"></td>
-    <td align="center" width="40%">
-      <table>
-      <caption><h3 class="title">Список задач</h3></caption>
-      <td>
-        <div class="block1"> 
-        <div id="tasks"></div>
-        </div>
-        <input class="input" id="input"/>
-        <button class="button" onclick="require(['app'], function (amber) {
-                 amber.globals.Main._tryExample();})">Добавить задачу.</button>  
+    <table width="100%">
+      <td width="30%"></td>
+      <td align="center" width="40%">
+        <table>
+        <caption><h3 class="title">Список задач</h3></caption>
+        <td>
+          <div class="block1"> 
+          <div id="tasks"></div>
+          <input class="input" id="input" name="input" type="text" placeholder="Введите новую задачу..." />
+          </div> 
 
+        </td>
+        </table>
       </td>
-      </table>
-    </td>
-    <td width="30%"></td>
-  </table>
-  <ol id="output-list"/>
+      <td width="30%"></td>
+    </table>
+    <ol id="output-list"/>
+
+    <script>
+       $('input[name="input"]').keypress(function (event) {
+          if (event.which === 13) {
+              require(['app'], function (amber) {
+                    amber.globals.Main._tryExample();
+              });
+          }
+      });
+    </script>
+
   </body>
    
 </html>
